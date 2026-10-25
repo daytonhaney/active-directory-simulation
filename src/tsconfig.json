@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "target": "ES2024",
+        "jsx": "preserve",
+        "jsxImportSource":"solid-js",
+        "checkJs": false,
+        "experimentalDecorators": false,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strict": true,
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}
