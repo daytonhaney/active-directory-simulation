@@ -6,7 +6,7 @@ A browser based Active Directory simulation/ game built with SolidJS
 
 ```bash
 $  git clone https://www.github.com/daytonhaney/helpdesk-simulator.git
-$ npm install # or pnpm install or yarn install
+$  npm install # or pnpm install or yarn install
 $  npm run dev
 ```
 
