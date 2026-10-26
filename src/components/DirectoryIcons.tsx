@@ -1,6 +1,4 @@
-
 import { Show } from "solid-js";
-
 type IconType = "ou" | "user" | "computer" | "group";
 
 interface DirectoryIconProps {
@@ -17,7 +15,6 @@ export default function DirectoryIcon(props: DirectoryIconProps) {
       height={size()}
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       style={{ "flex-shrink": "0" }}
     >
@@ -38,13 +35,7 @@ export default function DirectoryIcon(props: DirectoryIconProps) {
       </Show>
 
       <Show when={props.type === "user"}>
-        <circle
-          cx="12"
-          cy="7"
-          r="4"
-          fill="#7DA8D6"
-          stroke="#426B99"
-        />
+        <circle cx="12" cy="7" r="4" fill="#7DA8D6" stroke="#426B99" />
         <path
           d="M4 20V18C4 14 7 12.5 12 12.5S20 14 20 18V20Z"
           fill="#76A4D1"
@@ -62,13 +53,7 @@ export default function DirectoryIcon(props: DirectoryIconProps) {
           fill="#BFD8ED"
           stroke="#527A9B"
         />
-        <rect
-          x="4"
-          y="5"
-          width="16"
-          height="10"
-          fill="#4586B5"
-        />
+        <rect x="4" y="5" width="16" height="10" fill="#4586B5" />
         <path
           d="M12 17V21M7 21H17"
           stroke="#777"
@@ -85,12 +70,44 @@ export default function DirectoryIcon(props: DirectoryIconProps) {
           fill="#6C9FCD"
           stroke="#4779A7"
         />
-        <path
-          d="M16 13C20 13 22 15 22 19H17"
-          fill="#9CB9D6"
-          stroke="#7193B5"
-        />
+        <path d="M16 13C20 13 22 15 22 19H17" fill="#9CB9D6" stroke="#7193B5" />
       </Show>
+    </svg>
+  );
+}
+
+export function ActiveDirectoryIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      {/* Book cover */}
+      <path
+        d="M3 2h10v12H3z"
+        fill="#D7A229"
+        stroke="#8B6717"
+        stroke-width="0.7"
+      />
+
+      {/* Pages */}
+      <path
+        d="M5 3h7v10H5z"
+        fill="#FFF4C9"
+        stroke="#B69A55"
+        stroke-width="0.5"
+      />
+
+      {/* Book spine */}
+      <path
+        d="M2 2h3v12H2z"
+        fill="#E8BA45"
+        stroke="#98721F"
+        stroke-width="0.7"
+      />
+
+      {/* Spine highlight */}
+      <path d="M3 3v10" stroke="#FFE18A" stroke-width="0.8" />
+
+      {/* Directory entries */}
+      <path d="M7 5h4M7 7h4M7 9h4" stroke="#9A803B" stroke-width="0.7" />
     </svg>
   );
 }

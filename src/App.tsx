@@ -1,6 +1,10 @@
-import { createSignal, For, Show } from "solid-js";
 import "./App.css";
-import DirectoryIcon from "./components/DirectoryIcon";
+import { createEffect } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
+import MenuBar from "./components/MenuBar";
+import MenuBarIcons from "./components/MenuBarIcons";
+import { ActiveDirectoryIcon } from "./components/DirectoryIcons";
+import DirectoryIcon from "./components/DirectoryIcons";
 
 type DirectoryObject = {
   name: string;
@@ -59,7 +63,9 @@ function TreeNode(props: {
   onSelect: (path: string) => void;
 }) {
   const [expanded, setExpanded] = createSignal(true);
-  const currentPath = () => `${props.path}/${props.node.name}`;
+
+  const currentPath = () =>
+    props.path ? `${props.path}/${props.node.name}` : props.node.name;
   const hasChildren = () => (props.node.children?.length ?? 0) > 0;
 
   return (
@@ -112,12 +118,14 @@ function findNode(
 }
 
 export default function App() {
-  const [openMenu, setOpenMenu] = createSignal<string | null>(null);
   const [selectedObject, setSelectedObject] = createSignal<string | null>(null);
   const [panelWidth, setPanelWidth] = createSignal(310);
-  const [selected, setSelected] = createSignal(
-    "bindows.local/Bindows/Computers",
-  );
+  const [selected, setSelected] = createSignal(directory.name);
+
+  createEffect(() => {
+    console.log("Selected path:", selected());
+    console.log("Selected path:", selectedNode());
+  });
 
   const selectedNode = () => {
     const parts = selected().split("/");
@@ -126,85 +134,36 @@ export default function App() {
   };
 
   return (
-    <div
-      class="app-window"
-      onPointerDown={(event) => {
-        if (!(event.target as Element).closest(".menu-container")) {
-          setOpenMenu(null);
-        }
-      }}
-    >
-      <div class="titlebar">▣ &nbsp; Active Directory Manager</div>
-
-      <div class="menubar">
-        <div class="menu-container">
-          <button
-            class="menu-button"
-            classList={{ active: openMenu() === "File" }}
-            onClick={() => setOpenMenu(openMenu() === "File" ? null : "File")}
-            aria-expanded={openMenu() === "File"}
-          >
-            File
-          </button>
-
-          <Show when={openMenu() === "File"}>
-            <div class="menu-dropdown">
-              <button
-                class="menu-item"
-                onClick={() => {
-                  setOpenMenu(null);
-                  alert("Add/Remove Snap-in will be implemented later.");
-                }}
-              >
-                Add/Remove Snap-in...
-              </button>
-
-              <div class="menu-separator" />
-
-              <button
-                class="menu-item"
-                onClick={() => {
-                  setOpenMenu(null);
-                  alert("Options will be implemented later.");
-                }}
-              >
-                Options...
-              </button>
-
-              <div class="menu-separator" />
-
-              <button class="menu-item" onClick={() => setOpenMenu(null)}>
-                Exit
-              </button>
-            </div>
-          </Show>
-        </div>
-
-        <span>Action</span>
-        <span>View</span>
-        <span>Help</span>
+    <div class="app-window">
+      <div class="titlebar">
+        <ActiveDirectoryIcon />
+        <span>Active Directory Users and Computers</span>
       </div>
 
-      <div class="toolbar">
-        <span>‹</span>
-        <span>›</span>
-        <span>📁</span>
-        <span>↻</span>
-        <span>🔍</span>
-        <span>Actions ▾</span>
-      </div>
+      <MenuBar
+        onAction={(action) => {
+          console.log("Menu action:", action);
+        }}
+      />
 
+      <MenuBarIcons />
       <div class="panes">
         <aside class="tree-pane" style={{ width: `${panelWidth()}px` }}>
           <div class="console-root">
-            ▣ Directory Manager [DC01.bindows.local]
+            <ActiveDirectoryIcon />
+            <span>
+              Active Directory Users and Computers [DC01.bindows.local]
+            </span>
           </div>
           <div class="console-root">📁 Saved Queries</div>
           <TreeNode
             node={directory}
             path=""
             selected={selected()}
-            onSelect={setSelected}
+            onSelect={(path) => {
+              setSelected(path);
+              setSelectedObject(null);
+            }}
           />
         </aside>
         <div
