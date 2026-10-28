@@ -1,13 +1,15 @@
-import {
-  ArrowLeft,
-  ArrowRight,
-  FolderOpen,
-  RefreshCw,
-  Search,
-  ChevronDown,
-} from "lucide-solid";
+import ArrowLeft from "lucide-solid/icons/arrow-left";
+import ArrowRight from "lucide-solid/icons/arrow-right";
+import FolderOpen from "lucide-solid/icons/folder-open";
+import RefreshCw from "lucide-solid/icons/refresh-cw";
+import Search from "lucide-solid/icons/search";
+import ChevronDown from "lucide-solid/icons/chevron-down";
 
-export default function MenuBarIcons() {
+type MenuBarIconsProps = {
+  onRefresh?: () => void;
+};
+
+export default function MenuBarIcons(props: MenuBarIconsProps) {
   return (
     <div class="toolbar">
       <button class="toolbar-button" title="Back" aria-label="Back">
@@ -30,7 +32,12 @@ export default function MenuBarIcons() {
 
       <span class="toolbar-separator" />
 
-      <button class="toolbar-button" title="Refresh" aria-label="Refresh">
+      <button
+        class="toolbar-button"
+        title="Refresh"
+        onClick={() => props.onRefresh?.()}
+        aria-label="Refresh"
+      >
         <RefreshCw size={18} color="#32C900" strokeWidth={3} />
       </button>
 
@@ -47,3 +54,9 @@ export default function MenuBarIcons() {
     </div>
   );
 }
+
+/*
+export default function MenuBarIcons() {
+  return <div class="toolbar">Tool Bar Test</div>;
+}
+*/

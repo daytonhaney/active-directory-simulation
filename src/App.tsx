@@ -1,10 +1,10 @@
-import "./App.css";
 import { createEffect } from "solid-js";
 import { createSignal, For, Show } from "solid-js";
 import MenuBar from "./components/MenuBar";
 import MenuBarIcons from "./components/MenuBarIcons";
 import { ActiveDirectoryIcon } from "./components/DirectoryIcons";
 import DirectoryIcon from "./components/DirectoryIcons";
+import "./App.css";
 
 type DirectoryObject = {
   name: string;
@@ -19,7 +19,17 @@ const directory: DirectoryObject = {
   children: [
     { name: "Builtin", type: "ou", children: [] },
     { name: "Computers", type: "ou", children: [] },
-    { name: "Domain Controllers", type: "ou", children: [] },
+    {
+      name: "Domain Controllers",
+      type: "ou",
+      children: [
+        {
+          name: "DC01",
+          type: "computer",
+          description: "Domain Controller",
+        },
+      ],
+    },
     {
       name: "Bindows",
       type: "ou",
@@ -73,6 +83,11 @@ function TreeNode(props: {
       <div
         class={`tree-node ${props.selected === currentPath() ? "selected" : ""}`}
         onClick={() => props.onSelect(currentPath())}
+        onContextMenu={(event) => {
+          event.preventDefault();
+          props.onSelect(currentPath());
+          console.log("Right Clicked:", props.node.name);
+        }}
       >
         <span
           class="arrow"
@@ -133,6 +148,10 @@ export default function App() {
     return findNode(directory, parts.slice(1));
   };
 
+  const handleRefresh = () => {
+    console.log("refreshing directory:", selected());
+  };
+
   return (
     <div class="app-window">
       <div class="titlebar">
@@ -146,7 +165,8 @@ export default function App() {
         }}
       />
 
-      <MenuBarIcons />
+      <MenuBarIcons onRefresh={handleRefresh} />
+
       <div class="panes">
         <aside class="tree-pane" style={{ width: `${panelWidth()}px` }}>
           <div class="console-root">
